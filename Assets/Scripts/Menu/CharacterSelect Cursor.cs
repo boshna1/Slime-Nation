@@ -1,27 +1,25 @@
+using Mono.Cecil.Cil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CharacterSelectCursor : MonoBehaviour
 {
     Vector3 cursorPosition;
-    [SerializeField] Sprite cursorImage;
+    [SerializeField] Texture2D cursorImage;
     [SerializeField] GameObject cursor;
     [SerializeField] List<GameObject> cursorHolders = new List<GameObject>();
     [SerializeField] Camera cam;
     [SerializeField] GameObject canvas;
+    Vector2 hotspot = new Vector2 (0, 0);
+
+    bool interact = false;
     // Start is called before the first frame update
     void Start()
     {
-        cursorHolders.Add(Instantiate(cursor,transform.parent));
+        Cursor.SetCursor(cursorImage, hotspot, CursorMode.Auto);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        cursorPosition = Input.mousePosition;
-        Vector3 worldCursorPosition = cam.ScreenToWorldPoint(new Vector3(cursorPosition.x, cursorPosition.y,canvas.transform.position.z - cam.transform.position.z));
-        cursorHolders[0].transform.position = worldCursorPosition;    
-    }
 }

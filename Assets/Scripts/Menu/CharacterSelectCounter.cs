@@ -15,6 +15,11 @@ public class CharacterSelectCounter : MonoBehaviour
         }
     }
 
+
+    public void ManualStart()
+    {
+        SceneManager.LoadScene("BattleScreen");
+    }
     public void AddReady()
     {
         readyCount++;
