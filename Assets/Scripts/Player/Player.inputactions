@@ -123,7 +123,7 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Controller",
+                    "groups": "Controller;Controllerx",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -135,6 +135,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "437f566d-6bab-49e4-995d-52e6ca1e606c",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;Controllerx",
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -156,7 +167,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Controller",
+                    "groups": "Controller;Controllerx",
                     "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -179,6 +190,17 @@
         {
             "name": "Controller",
             "bindingGroup": "Controller",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": true,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Controllerx",
+            "bindingGroup": "Controllerx",
             "devices": [
                 {
                     "devicePath": "<XInputController>",

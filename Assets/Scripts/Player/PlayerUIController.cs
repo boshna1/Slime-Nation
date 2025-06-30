@@ -21,6 +21,8 @@ public class PlayerUIController : MonoBehaviour
     [SerializeField]
     private float gravityValue = -9.81f;
 
+    [SerializeField] Transform parent;
+
     private Vector2 movementInput = Vector2.zero;
     private bool interact = false;
     private bool cancel = false;
@@ -28,11 +30,14 @@ public class PlayerUIController : MonoBehaviour
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+        transform.SetParent(GameObject.FindGameObjectWithTag("PlayerManager").transform);
+        
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
+        Debug.Log("moving");
     }
 
     public void OnInteract(InputAction.CallbackContext context)
