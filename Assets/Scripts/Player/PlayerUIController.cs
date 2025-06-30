@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerUIController : MonoBehaviour
 {
     [SerializeField]
-    private CharacterController controller;
+    private CharacterController controller
     [SerializeField]
     private Vector3 playerVelocity;
     [SerializeField]
