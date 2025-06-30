@@ -87,7 +87,6 @@ public class PlayerUIController : MonoBehaviour
             foreach(var result in results)
             {
                 ExecuteEvents.Execute(result.gameObject, pointerData, ExecuteEvents.pointerClickHandler);
-                break;
             }
 
             interact = false;
