@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -22,16 +24,18 @@ public class PlayerUIController : MonoBehaviour
     private float gravityValue = -9.81f;
 
     [SerializeField] Transform parent;
+    [SerializeField] CharacterSelectCounter confirm;
 
     private Vector2 movementInput = Vector2.zero;
     private bool interact = false;
     private bool cancel = false;
+    private bool isReady = false;
 
     private void Start()
     {
         controller = gameObject.GetComponent<CharacterController>();
+        confirm = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<CharacterSelectCounter>();
         transform.SetParent(GameObject.FindGameObjectWithTag("PlayerManager").transform);
-        
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -60,8 +64,18 @@ public class PlayerUIController : MonoBehaviour
 
     public void OnCancel(InputAction.CallbackContext context)
     {
-        cancel = context.ReadValue<bool>();
-        cancel = context.action.triggered;
+        if (context.performed)
+        {
+            Debug.Log("true");
+            cancel = true;
+        }
+
+
+        if (context.canceled)
+        {
+            Debug.Log("false");
+            cancel = false;
+        }
     }
 
     void Update()
@@ -75,19 +89,29 @@ public class PlayerUIController : MonoBehaviour
         // Interact
         if (interact)
         {
-            Vector2 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-
-            PointerEventData pointerData = new PointerEventData(EventSystem.current)
+            if (!isReady)
             {
-                position = screenPoint
-            };
+                Vector2 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
 
-            var results = new List<RaycastResult>();
-            EventSystem.current.RaycastAll(pointerData, results);
-            foreach(var result in results)
-            {
-                ExecuteEvents.Execute(result.gameObject, pointerData, ExecuteEvents.pointerClickHandler);
+                PointerEventData pointerData = new PointerEventData(EventSystem.current)
+                {
+                    position = screenPoint
+                };
+
+                var results = new List<RaycastResult>();
+                EventSystem.current.RaycastAll(pointerData, results);
+                foreach (var result in results)
+                {
+                    transform.name = result.gameObject.name;
+                    if (result.gameObject.name == "Lord" || result.gameObject.name == "John" || result.gameObject.name == "Sarah" || result.gameObject.name == "Door" )
+                    {
+                        confirm.AddReady();
+                        isReady = true;
+                    }
+                    ExecuteEvents.Execute(result.gameObject, pointerData, ExecuteEvents.pointerClickHandler);
+                }
             }
+            
 
             interact = false;
         }
@@ -95,7 +119,24 @@ public class PlayerUIController : MonoBehaviour
         // cancel;
         if (cancel)
         {
-
+            if (isReady && confirm.GetIsConfirm())
+            {
+                confirm.SetIsConfirm(false);
+                isReady = false;
+                confirm.SubReady();
+                transform.name = "Not Selected";
+            }
+            else if (isReady && !confirm.GetIsConfirm()) 
+            {
+                confirm.SubReady();
+                isReady = false;
+                transform.name = "Not Selected";
+            }
+            else if (!isReady)
+            {
+                confirm.RemovePlayerCount();
+            }
+            cancel = false;
         }
 
 
