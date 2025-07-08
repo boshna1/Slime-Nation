@@ -25,14 +25,17 @@ public class PlayerUIController : MonoBehaviour
 
     [SerializeField] Transform parent;
     [SerializeField] CharacterSelectCounter confirm;
+    DataHolder dataHolder;
 
     private Vector2 movementInput = Vector2.zero;
     private bool interact = false;
     private bool cancel = false;
     private bool isReady = false;
+    int index;
 
     private void Start()
     {
+        dataHolder = GameObject.Find("DataHolder").GetComponent<DataHolder>();
         controller = gameObject.GetComponent<CharacterController>();
         confirm = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<CharacterSelectCounter>();
         transform.SetParent(GameObject.FindGameObjectWithTag("PlayerManager").transform);
@@ -41,22 +44,18 @@ public class PlayerUIController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
-        Debug.Log("moving");
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        Debug.Log("Space");
         if (context.performed)
         {
-            Debug.Log("true");
             interact = true;
         }
             
 
         if (context.canceled)
         {
-            Debug.Log("false");
             interact = false;
         }
             
@@ -66,14 +65,12 @@ public class PlayerUIController : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log("true");
             cancel = true;
         }
 
 
         if (context.canceled)
         {
-            Debug.Log("false");
             cancel = false;
         }
     }
@@ -111,7 +108,24 @@ public class PlayerUIController : MonoBehaviour
                     ExecuteEvents.Execute(result.gameObject, pointerData, ExecuteEvents.pointerClickHandler);
                 }
             }
-            
+            else if (isReady)
+            {
+                Vector2 screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+
+                PointerEventData pointerData = new PointerEventData(EventSystem.current)
+                {
+                    position = screenPoint
+                };
+
+                var results = new List<RaycastResult>();
+                EventSystem.current.RaycastAll(pointerData, results);
+                foreach (var result in results)
+                {
+                    dataHolder.SetInfo(index);
+                    ExecuteEvents.Execute(result.gameObject, pointerData, ExecuteEvents.pointerClickHandler);
+                }
+            }
+
 
             interact = false;
         }
@@ -134,7 +148,11 @@ public class PlayerUIController : MonoBehaviour
             }
             else if (!isReady)
             {
-                confirm.RemovePlayerCount();
+                if (confirm.GetPlayerCount() == 1) 
+                {
+                    confirm.Menu();
+                }
+                Destroy(gameObject);
             }
             cancel = false;
         }
@@ -143,5 +161,15 @@ public class PlayerUIController : MonoBehaviour
         // Combine horizontal and vertical movement
         Vector3 finalMove = (move * playerSpeed) + (playerVelocity.y * Vector3.up);
         controller.Move(finalMove * Time.deltaTime);
+    }
+
+    public void SetIndex(int input)
+    {
+        index = input;
+    }
+
+    public int GetIndex() 
+    {
+        return index;
     }
 }

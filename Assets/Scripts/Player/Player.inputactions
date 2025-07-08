@@ -6,9 +6,18 @@
             "id": "aee53ae6-79d4-4b4b-a2d1-ff5c13ffe973",
             "actions": [
                 {
-                    "name": "New action",
-                    "type": "Button",
+                    "name": "Move",
+                    "type": "PassThrough",
                     "id": "b79b11bb-f6b1-43a4-9af3-ba241e3291ea",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "b3bcfe61-86cf-44f4-bb2f-279136ff7bfa",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -17,13 +26,79 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "f569ed9e-2fc5-441e-82d5-9172f6eee8cb",
-                    "path": "",
+                    "name": "2D Vector",
+                    "id": "81a1d25b-fb94-4073-931f-12fe07b04b04",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "3b8f812f-b35a-4d9e-b368-a3725dc8e0c0",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "8a838f87-ea0a-4ade-ba12-53de607de411",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "a4794566-db7c-44cd-b298-25dd3bc1a215",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;Controllerx",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40b50aaa-04d8-43ba-beb2-6d77f68c48fc",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e1dfd62-d79f-4291-9ebb-2b7ede0be181",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;Controllerx",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c303f905-618e-42bf-bce4-4abf208f99d7",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;Controllerx",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

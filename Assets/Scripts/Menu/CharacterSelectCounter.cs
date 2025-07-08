@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CharacterSelectCounter : MonoBehaviour
 {
@@ -10,24 +11,37 @@ public class CharacterSelectCounter : MonoBehaviour
     [SerializeField] bool notCancelled = true;
     [SerializeField] bool confirm = false;
     [SerializeField] GameObject panel;
+    [SerializeField] GameObject[] buttons = new GameObject[4];
+
+
+    private void Start()
+    {
+        panel.SetActive(false);
+    }
     void Update()
     {
         if ((readyCount >= playerCount) && notCancelled && playerCount != 0)
         {
             confirm = true;
+            
         }
         if (readyCount < playerCount) 
         {
             confirm = false;
         }
-        if (confirm)
+        panel.SetActive(confirm);
+        for (int i = 0; i < 4; i++)
         {
-            panel.SetActive(true);
+            buttons[i].SetActive(!confirm);
         }
-        if (!confirm)
-        {
-            panel.SetActive(false);
-        }
+
+
+
+    }
+
+    public int GetPlayerCount()
+    {
+        return playerCount;
     }
     public void AddReady()
     {
@@ -36,7 +50,10 @@ public class CharacterSelectCounter : MonoBehaviour
 
     public void SubReady()
     {
-        readyCount--;
+        if (readyCount > 0)
+        {
+            readyCount--;
+        }
     }
 
     public void IncreasePlayerCount()
@@ -46,7 +63,10 @@ public class CharacterSelectCounter : MonoBehaviour
 
     public void RemovePlayerCount() 
     {
-        playerCount--;
+        if (playerCount != -1)
+        {
+            playerCount--;
+        }
     }
 
     public void ManualLoad()
@@ -62,5 +82,10 @@ public class CharacterSelectCounter : MonoBehaviour
     public void SetIsConfirm(bool con)
     {
         confirm = con;
+    }
+
+    public void Menu()
+    { 
+                SceneManager.LoadScene("Main Menu");      
     }
 }

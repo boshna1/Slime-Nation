@@ -54,6 +54,7 @@ MonoBehaviour:
   jumpHeight: 1
   gravityValue: -9.81
   parent: {fileID: 0}
+  confirm: {fileID: 0}
 --- !u!114 &4362042708094093469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +134,7 @@ MonoBehaviour:
     m_ActionId: fd2667a3-2912-42aa-b551-8507f370324b
     m_ActionName: 'UI/Cancel[/Keyboard/c]'
   m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: Controller
+  m_DefaultControlScheme: 
   m_DefaultActionMap: UI
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
