@@ -14,7 +14,7 @@ public class PlayerMovment : MonoBehaviour
     [SerializeField]
     private float playerSpeed = 2.0f;
     [SerializeField]
-    private float jumpHeight = 1.0f;
+    private float jumpHeight = 5.0f;
     [SerializeField]
     private float gravityValue = -9.81f;
     private Vector2 movementInput = Vector2.zero;
@@ -47,6 +47,7 @@ public class PlayerMovment : MonoBehaviour
         if (jump)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravityValue);
+            jump = false;
         }
 
         // Apply gravity
@@ -59,9 +60,11 @@ public class PlayerMovment : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        Debug.Log("onujmp");
         if (context.performed)
         {
             jump = true;
+            Debug.Log("jump");
         }
 
 
@@ -75,5 +78,10 @@ public class PlayerMovment : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
     }
 }
